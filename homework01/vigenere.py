@@ -42,7 +42,7 @@ def decrypt_vigenere(ciphertext, keyword):
     # PUT YOUR CODE HERE
     s=[i for i in ciphertext]
     key=[i for i in keyword*(len(ciphertext)//len(keyword)+1)]
-    ciphertext=''
+    plaintext=''
     for i in range(len(s)):
         simbol=ord(s[i])
         simkey=ord(key[i])
@@ -54,5 +54,5 @@ def decrypt_vigenere(ciphertext, keyword):
             s[i]=chr(simbol-simkey)
         elif 65 <= simbol < 65+simkey or 97 <= simbol < 97+simkey:
             s[i]=chr(simbol-simkey+26)
-        ciphertext+=s[i]
+        plaintext+=s[i]
     return plaintext
