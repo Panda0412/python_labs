@@ -40,4 +40,19 @@ def decrypt_vigenere(ciphertext, keyword):
     'ATTACKATDAWN'
     """
     # PUT YOUR CODE HERE
+    s=[i for i in ciphertext]
+    key=[i for i in keyword*(len(ciphertext)//len(keyword)+1)]
+    ciphertext=''
+    for i in range(len(s)):
+        simbol=ord(s[i])
+        simkey=ord(key[i])
+        if 65 <= simkey <= 90:
+            simkey-=65
+        elif 97 <= simkey <= 122:
+            simkey-=97
+        if 65+simkey <= simbol <= 90 or 97+simkey <= simbol <= 122:
+            s[i]=chr(simbol-simkey)
+        elif 65 <= simbol < 65+simkey or 97 <= simbol < 97+simkey:
+            s[i]=chr(simbol-simkey+26)
+        ciphertext+=s[i]
     return plaintext
