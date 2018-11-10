@@ -45,6 +45,9 @@ def get_row(values, pos):
     >>> get_row([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (2, 0))
     ['.', '8', '9']
     """
+    i=int(pos[0])
+    row=list(values[i])
+    return row
     pass
 
 
@@ -58,6 +61,11 @@ def get_col(values, pos):
     >>> get_col([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (0, 2))
     ['3', '6', '9']
     """
+    j=pos[1]
+    col=[]
+    for i in range(len(values)):
+        col.append(values[i][j])
+    return col
     pass
 
 
@@ -72,6 +80,43 @@ def get_block(values, pos):
     >>> get_block(grid, (8, 8))
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
+    block=[]
+    i=pos[0]
+    j=pos[1]
+    if i<3:
+        for h in range(3):
+            if j<3:
+                for w in range(3):
+                    block.append(values[h][w])
+            elif j<6:
+                for w in range(3, 6):
+                    block.append(values[h][w])
+            elif j<9:
+                for w in range(6, 9):
+                    block.append(values[h][w])
+    elif i<6:
+        for h in range(3, 6):
+            if j<3:
+                for w in range(3):
+                    block.append(values[h][w])
+            elif j<6:
+                for w in range(3, 6):
+                    block.append(values[h][w])
+            elif j<9:
+                for w in range(6, 9):
+                    block.append(values[h][w])
+    elif i<9:
+        for q in range(6, 9):
+            if j<3:
+                for w in range(3):
+                    block.append(values[h][w])
+            elif j<6:
+                for w in range(3, 6):
+                    block.append(values[h][w])
+            elif j<9:
+                for w in range(6, 9):
+                    block.append(values[h][w])
+    return block
     pass
 
 
