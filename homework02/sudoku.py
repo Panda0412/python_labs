@@ -106,7 +106,7 @@ def get_block(values, pos):
                 for w in range(6, 9):
                     block.append(values[h][w])
     elif i<9:
-        for q in range(6, 9):
+        for h in range(6, 9):
             if j<3:
                 for w in range(3):
                     block.append(values[h][w])
