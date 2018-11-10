@@ -52,6 +52,24 @@ def multiplicative_inverse(e, phi):
     23
     """
     # PUT YOUR CODE HERE
+    a=[phi]
+    b=[e]
+    a_mod_b=[phi % e]
+    a_div_b=[phi // e]
+    x=[0]
+    y=[1]
+    i=0
+    while a[i]%b[i]!=0:
+        a.append(b[i])
+        b.append(a_mod_b[i])
+        a_mod_b.append(a[i + 1]%b[i + 1])
+        a_div_b.append(a[i + 1]//b[i + 1])
+        i+=1
+    for j in range(1, len(a)):
+        x.append(y[j-1])
+        y.append(x[j-1]-y[j-1]*a_div_b[len(a)-j-1])
+    d=y[len(a)-1]%phi
+    return d
     pass
 
 
@@ -63,21 +81,21 @@ def generate_keypair(p, q):
 
     # n = pq
     # PUT YOUR CODE HERE
-
+    n=p*q
     # phi = (p-1)(q-1)
     # PUT YOUR CODE HERE
-
+    phi=(p-1)*(q-1)
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
 
     # Use Euclid's Algorithm to verify that e and phi(n) are comprime
-    g = gcd(e, phi)
-    while g != 1:
-        e = random.randrange(1, phi)
-        g = gcd(e, phi)
+    g=gcd(e, phi)
+    while g!=1:
+        e=random.randrange(1, phi)
+        g=gcd(e, phi)
 
     # Use Extended Euclid's Algorithm to generate the private key
-    d = multiplicative_inverse(e, phi)
+    d=multiplicative_inverse(e, phi)
 
     # Return public and private keypair
     # Public key is (e, n) and private key is (d, n)
