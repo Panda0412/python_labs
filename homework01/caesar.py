@@ -11,16 +11,16 @@ def encrypt_caesar(plaintext):
     >>> encrypt_caesar("")
     ''
     """
-    # PUT YOUR CODE HERE
-    slovo=[i for i in plaintext]
+
     ciphertext=''
-    for i in range(len(slovo)):
-        simbol=ord(slovo[i])
-        if 65 <= simbol <= 87 or 97 <= simbol <= 119:
-            slovo[i]=chr(simbol+3)
-        elif 88 <= simbol <= 90 or 120 <= simbol <= 122:
-            slovo[i]=chr(simbol-23)
-        ciphertext+=slovo[i]
+    for i in range(len(plaintext)):
+        simbol=ord(plaintext[i])
+        if ord('A') <= simbol <= ord('Z')-3 or ord('a') <= simbol <= ord('z')-3:
+            ciphertext+=chr(simbol+3)
+        elif ord('Z')-2 <= simbol <= ord('Z') or ord('z')-2 <= simbol <= ord('z'):
+            ciphertext+=chr(simbol-23)
+        else:
+            ciphertext+=plaintext[i]
     return ciphertext
 
 
@@ -37,14 +37,14 @@ def decrypt_caesar(ciphertext):
     >>> decrypt_caesar("")
     ''
     """
-    # PUT YOUR CODE HERE
-    slovo=[i for i in ciphertext]
+
     plaintext=''
-    for i in range(len(slovo)):
-        simbol=ord(slovo[i])
-        if 68 <= simbol <= 90 or 100 <= simbol <= 122:
-            slovo[i]=chr(simbol-3)
-        elif 65 <= simbol <= 67 or 97 <= simbol <= 99:
-            slovo[i]=chr(simbol+23)
-        plaintext+=slovo[i]
+    for i in range(len(ciphertext)):
+        simbol=ord(ciphertext[i])
+        if ord('A')+3 <= simbol <= ord('Z') or ord('a')+3 <= simbol <= ord('z'):
+            plaintext+=chr(simbol-3)
+        elif ord('A') <= simbol <= ord('A')+2 or ord('a') <= simbol <= ord('a')+2:
+            plaintext+=chr(simbol+23)
+        else:
+            plaintext+=ciphertext[i]
     return plaintext
