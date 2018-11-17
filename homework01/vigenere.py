@@ -9,22 +9,22 @@ def encrypt_vigenere(plaintext, keyword):
     >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
     'LXFOPVEFRNHR'
     """
-    # PUT YOUR CODE HERE
-    s=[i for i in plaintext]
-    key=[i for i in keyword*(len(plaintext)//len(keyword)+1)]
+
+    key=keyword*(len(plaintext)//len(keyword)+1)
     ciphertext=''
-    for i in range(len(s)):
-        simbol=ord(s[i])
+    for i in range(len(plaintext)):
+        simbol=ord(plaintext[i])
         simkey=ord(key[i])
-        if 65 <= simkey <= 90:
-            simkey-=65
-        elif 97 <= simkey <= 122:
-            simkey-=97
-        if 65 <= simbol <= 90-simkey or 97 <= simbol <= 122-simkey:
-            s[i]=chr(simbol+simkey)
-        elif 90-simkey < simbol <= 90 or 122-simkey < simbol <= 122:
-            s[i]=chr(simbol+simkey-26)
-        ciphertext+=s[i]
+        if ord('A') <= simkey <= ord('Z'):
+            simkey-=ord('A')
+        elif ord('a') <= simkey <= ord('z'):
+            simkey-=ord('a')
+        if ord('A') <= simbol <= ord('Z')-simkey or ord('a') <= simbol <= ord('z')-simkey:
+            ciphertext+=chr(simbol+simkey)
+        elif ord('Z')-simkey < simbol <= ord('Z') or ord('z')-simkey < simbol <= ord('z'):
+            ciphertext+=chr(simbol+simkey-26)
+        else:
+            ciphertext+=plaintext[i]
     return ciphertext
 
 
@@ -39,20 +39,20 @@ def decrypt_vigenere(ciphertext, keyword):
     >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
     'ATTACKATDAWN'
     """
-    # PUT YOUR CODE HERE
-    s=[i for i in ciphertext]
-    key=[i for i in keyword*(len(ciphertext)//len(keyword)+1)]
+
+    key=keyword*(len(ciphertext)//len(keyword)+1)
     plaintext=''
-    for i in range(len(s)):
-        simbol=ord(s[i])
+    for i in range(len(ciphertext)):
+        simbol=ord(ciphertext[i])
         simkey=ord(key[i])
-        if 65 <= simkey <= 90:
-            simkey-=65
-        elif 97 <= simkey <= 122:
-            simkey-=97
-        if 65+simkey <= simbol <= 90 or 97+simkey <= simbol <= 122:
-            s[i]=chr(simbol-simkey)
-        elif 65 <= simbol < 65+simkey or 97 <= simbol < 97+simkey:
-            s[i]=chr(simbol-simkey+26)
-        plaintext+=s[i]
+        if ord('A') <= simkey <= ord('Z'):
+            simkey-=ord('A')
+        elif ord('a') <= simkey <= ord('z'):
+            simkey-=ord('a')
+        if ord('A')+simkey <= simbol <= ord('Z') or ord('a')+simkey <= simbol <= ord('z'):
+            plaintext+=chr(simbol-simkey)
+        elif ord('A') <= simbol < ord('A')+simkey or ord('a') <= simbol < ord('a')+simkey:
+            plaintext+=chr(simbol-simkey+26)
+        else:
+            plaintext+=ciphertext[i]
     return plaintext
