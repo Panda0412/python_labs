@@ -12,16 +12,14 @@ def is_prime(n):
     >>> is_prime(8)
     False
     """
-    # PUT YOUR CODE HERE
-    s=0
-    for i in range(1, n):
+    s=1
+    for i in range(2, n):
         if n%i==0:
             s+=1
+            return False
+            break
     if s==1:
         return True
-    else:
-        return False
-    pass
 
 
 def gcd(a, b):
@@ -33,14 +31,12 @@ def gcd(a, b):
     >>> gcd(3, 7)
     1
     """
-    # PUT YOUR CODE HERE
     while a!=b:
         if a>b:
             a=a-b
         else:
             b=b-a
     return a
-    pass
 
 
 def multiplicative_inverse(e, phi):
@@ -51,7 +47,6 @@ def multiplicative_inverse(e, phi):
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
     a=[phi]
     b=[e]
     a_mod_b=[phi % e]
@@ -70,7 +65,6 @@ def multiplicative_inverse(e, phi):
         y.append(x[j-1]-y[j-1]*a_div_b[len(a)-j-1])
     d=y[len(a)-1]%phi
     return d
-    pass
 
 
 def generate_keypair(p, q):
@@ -80,10 +74,8 @@ def generate_keypair(p, q):
         raise ValueError('p and q cannot be equal')
 
     # n = pq
-    # PUT YOUR CODE HERE
     n=p*q
     # phi = (p-1)(q-1)
-    # PUT YOUR CODE HERE
     phi=(p-1)*(q-1)
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
