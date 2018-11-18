@@ -210,7 +210,7 @@ def check_solution(solution):
     for m in range(0, 9, 3):
         for n in range(0, 9, 3):
             block=set(get_block(solution, (m,n)))
-            if block!=check:
+            if block!=p:
                 return False
     return True
 
