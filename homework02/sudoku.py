@@ -239,7 +239,7 @@ def generate_sudoku(n):
     >>> check_solution(solution)
     True
     """
-    grid: list=[]
+    grid=[]
     for i in range(9):
         grid.append(['.']*9)
     sgrid=solve(grid)
