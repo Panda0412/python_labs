@@ -32,7 +32,6 @@ def group(values, n):
             m[i][j]=values[c]
             c+=1
     return m
-    pass
 
 
 def get_row(values, pos):
@@ -48,7 +47,6 @@ def get_row(values, pos):
     i=int(pos[0])
     row=list(values[i])
     return row
-    pass
 
 
 def get_col(values, pos):
@@ -66,7 +64,6 @@ def get_col(values, pos):
     for i in range(len(values)):
         col.append(values[i][j])
     return col
-    pass
 
 
 def get_block(values, pos):
@@ -117,7 +114,6 @@ def get_block(values, pos):
                 for w in range(6, 9):
                     block.append(values[h][w])
     return block
-    pass
 
 
 def find_empty_positions(grid):
@@ -130,7 +126,18 @@ def find_empty_positions(grid):
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    pass
+    m=-1
+    n=-1
+    for i in range(len(grid)):
+        for j in range(len(grid)):
+            if grid[i][j]=='.':
+                m=i
+                n=j
+                break
+        if m>=0 and n>=0:
+            break
+    return (m, n)
+
 
 
 def find_possible_values(grid, pos):
