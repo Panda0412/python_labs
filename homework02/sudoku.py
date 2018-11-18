@@ -239,17 +239,17 @@ def generate_sudoku(n):
     >>> check_solution(solution)
     True
     """
-    grid=[]
+    grid: list=[]
     for i in range(9):
-        grid.append(['.'] * 9)
+        grid.append(['.']*9)
     sgrid=solve(grid)
-    n=81-min(81,max(0, n))
-    while n:
-        i=random.randint(0, 8)
-        j=random.randint(0, 8)
-        if grid[i][j]!='.':
-            grid[i][j]='.'
-            n-=1
+    a=81-min(81, max(0,n))
+    while a:
+        i=random.randint(0,8)
+        j=random.randint(0,8)
+        if sgrid[i][j]!='.':
+            sgrid[i][j]='.'
+            a-=1
     return sgrid
 
 
