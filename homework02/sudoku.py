@@ -239,19 +239,18 @@ def generate_sudoku(n):
     >>> check_solution(solution)
     True
     """
-    grid=[]
+    g=[]
     for i in range(9):
-        grid.append(['.']*9)
-    sgrid=solve(grid)
+        g.append(['.']*9)
+    sg=solve(g)
     a=81-min(81, max(0,n))
-    while a:
+    while a!=0:
         i=random.randint(0,8)
         j=random.randint(0,8)
-        if sgrid[i][j]!='.':
-            sgrid[i][j]='.'
+        if sg[i][j]!='.':
+            sg[i][j]='.'
             a-=1
-    return sgrid
-
+    return sg
 
 if __name__ == '__main__':
     for fname in ['puzzle1.txt', 'puzzle2.txt', 'puzzle3.txt']:
