@@ -81,38 +81,38 @@ def get_block(values, pos):
     i=pos[0]
     j=pos[1]
     if i<3:
-        for h in range(3):
+        for m in range(3):
             if j<3:
-                for w in range(3):
-                    block.append(values[h][w])
+                for n in range(3):
+                    block.append(values[m][n])
             elif j<6:
-                for w in range(3, 6):
-                    block.append(values[h][w])
+                for n in range(3, 6):
+                    block.append(values[m][n])
             elif j<9:
-                for w in range(6, 9):
-                    block.append(values[h][w])
+                for n in range(6, 9):
+                    block.append(values[m][n])
     elif i<6:
-        for h in range(3, 6):
+        for m in range(3, 6):
             if j<3:
-                for w in range(3):
-                    block.append(values[h][w])
+                for n in range(3):
+                    block.append(values[m][n])
             elif j<6:
-                for w in range(3, 6):
-                    block.append(values[h][w])
+                for n in range(3, 6):
+                    block.append(values[m][n])
             elif j<9:
-                for w in range(6, 9):
-                    block.append(values[h][w])
+                for n in range(6, 9):
+                    block.append(values[m][n])
     elif i<9:
-        for h in range(6, 9):
+        for m in range(6, 9):
             if j<3:
-                for w in range(3):
-                    block.append(values[h][w])
+                for n in range(3):
+                    block.append(values[m][n])
             elif j<6:
-                for w in range(3, 6):
-                    block.append(values[h][w])
+                for n in range(3, 6):
+                    block.append(values[m][n])
             elif j<9:
-                for w in range(6, 9):
-                    block.append(values[h][w])
+                for n in range(6, 9):
+                    block.append(values[m][n])
     return block
 
 
@@ -198,8 +198,21 @@ def solve(grid):
 
 def check_solution(solution):
     """ Если решение solution верно, то вернуть True, в противном случае False """
-    # TODO: Add doctests with bad puzzles
-    pass
+    p=set('123456789')
+    for i in range(len(solution)):
+        row=set(get_row(solution,(i,0)))
+        if row!=p:
+            return False
+    for j in range(len(solution)):
+        col=set(get_col(solution,(0,j)))
+        if col!=p:
+            return False
+    for m in range(0, 9, 3):
+        for n in range(0, 9, 3):
+            block=set(get_block(solution, (m,n)))
+            if block!=check:
+                return False
+    return True
 
 
 def generate_sudoku(N):
