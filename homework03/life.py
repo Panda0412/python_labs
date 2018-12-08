@@ -5,7 +5,7 @@ import random
 
 class GameOfLife:
 
-    def __init__(self, width=640, height=480, cell_size=10, speed=10):
+    def __init__(self, width: int = 640, height: int = 480, cell_size: int = 10, speed: int = 20) -> None:
         self.width = width
         self.height = height
         self.cell_size = cell_size
@@ -22,7 +22,7 @@ class GameOfLife:
         # Скорость протекания игры
         self.speed = speed
 
-    def draw_grid(self):
+    def draw_grid(self) -> None:
         """ Отрисовать сетку """
         for x in range(0, self.width, self.cell_size):
             pygame.draw.line(self.screen, pygame.Color('black'),
@@ -31,7 +31,7 @@ class GameOfLife:
             pygame.draw.line(self.screen, pygame.Color('black'),
                              (0, y), (self.width, y))
 
-    def run(self):
+    def run(self) -> None:
         """ Запустить игру """
         pygame.init()
         clock = pygame.time.Clock()
@@ -57,7 +57,7 @@ class GameOfLife:
             clock.tick(self.speed)
         pygame.quit()
 
-    def cell_list(self, randomize=True):
+    def cell_list(self, randomize: bool = True) -> list:
         """ Создание списка клеток.
 
         :param randomize: Если True, то создается список клеток, где
@@ -73,7 +73,7 @@ class GameOfLife:
                           for row in range(self.cell_height)]
         return self.clist
 
-    def draw_cell_list(self, clist):
+    def draw_cell_list(self, clist: list) -> None:
         """ Отображение списка клеток
 
         :param rects: Список клеток для отрисовки,
@@ -92,7 +92,7 @@ class GameOfLife:
                                       rown * self.cell_size,
                                       self.cell_size, self.cell_size))
 
-    def get_neighbours(self, cell):
+    def get_neighbours(self, cell: tuple) -> list:
         """ Вернуть список соседей для указанной ячейки
 
         :param cell: Позиция ячейки в сетке, задается кортежем вида (row, col)
@@ -110,7 +110,7 @@ class GameOfLife:
                 neighbours.append(self.clist[row][col])
         return neighbours
 
-    def update_cell_list(self, cell_list):
+    def update_cell_list(self, cell_list: list) -> list:
         """ Выполнить один шаг игры.
 
         Обновление всех ячеек происходит одновременно. Функция возвращает
@@ -132,5 +132,5 @@ class GameOfLife:
 
 
 if __name__ == '__main__':
-    game = GameOfLife(1000, 600, 20)
+    game = GameOfLife(800, 600, 10)
     game.run()
