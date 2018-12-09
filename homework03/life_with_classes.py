@@ -6,7 +6,8 @@ from copy import deepcopy
 
 class GameOfLife:
 
-    def __init__(self, width: int = 640, height: int = 480, cell_size: int = 10, speed: int = 10) -> None:
+    def __init__(self, width: int = 640, height: int = 480,
+                 cell_size: int = 10, speed: int = 10) -> None:
         self.width = width
         self.height = height
         self.cell_size = cell_size
@@ -88,7 +89,8 @@ class Cell:
 
 class CellList:
 
-    def __init__(self, nrows: int, ncols: int, randomize: bool = False) -> None:
+    def __init__(self, nrows: int, ncols: int,
+                 randomize: bool = False) -> None:
         self.nrows = nrows
         self.ncols = ncols
         self.randomize = randomize
