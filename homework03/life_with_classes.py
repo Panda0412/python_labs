@@ -6,7 +6,7 @@ from copy import deepcopy
 
 class GameOfLife:
 
-    def __init__(self, width=640, height=480, cell_size=10, speed=10):
+    def __init__(self, width: int = 640, height: int = 480, cell_size: int = 10, speed: int = 10) -> None:
         self.width = width
         self.height = height
         self.cell_size = cell_size
@@ -23,7 +23,7 @@ class GameOfLife:
         # Скорость протекания игры
         self.speed = speed
 
-    def draw_grid(self):
+    def draw_grid(self) -> None:
         """ Отрисовать сетку """
         for x in range(0, self.width, self.cell_size):
             pygame.draw.line(self.screen, pygame.Color('black'),
@@ -46,7 +46,7 @@ class GameOfLife:
                                       coln * self.cell_size,
                                       self.cell_size, self.cell_size))
 
-    def run(self):
+    def run(self) -> None:
         """ Запустить игру """
         pygame.init()
         clock = pygame.time.Clock()
@@ -77,18 +77,18 @@ class GameOfLife:
 
 class Cell:
 
-    def __init__(self, row, col, state=False):
+    def __init__(self, row: int, col: int, state: bool = False) -> None:
         self.row = row
         self.col = col
         self.state = state
 
-    def is_alive(self):
+    def is_alive(self) -> bool:
         return self.state
 
 
 class CellList:
 
-    def __init__(self, nrows, ncols, randomize=False):
+    def __init__(self, nrows: int, ncols: int, randomize: bool = False) -> None:
         self.nrows = nrows
         self.ncols = ncols
         self.randomize = randomize
@@ -100,14 +100,14 @@ class CellList:
                       for coln in range(ncols)] for rown in range(nrows)]
         self.clist = clist
 
-    def get_neighbours(self, cell):
+    def get_neighbours(self, cell: Cell) -> list:
         neighbours = [self.clist[rown + cell.row][coln + cell.col]
                       for rown in range(-1, 2) for coln in range(-1, 2)
                       if (coln or rown) and 0 <= cell.row + rown < self.nrows
                       and 0 <= cell.col + coln < self.ncols]
         return neighbours
 
-    def update(self):
+    def update(self) -> object:
         new_clist = deepcopy(self.clist)
         for cell in self:
             neighbours = self.get_neighbours(cell)
@@ -151,7 +151,7 @@ class CellList:
         return strclist
 
     @classmethod
-    def from_file(cls, filename):
+    def from_file(cls, filename: str) -> object:
         with open(filename, 'r') as cells_file:
             cells_str = cells_file.read()
             nrows = cells_str.count('\n')
@@ -166,5 +166,5 @@ class CellList:
 
 
 if __name__ == '__main__':
-    game = GameOfLife(800, 600, 20)
+    game = GameOfLife(800, 600, 10)
     game.run()
