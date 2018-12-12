@@ -7,7 +7,8 @@ import numpy as np
 def get_network(users, as_edgelist=True):
     vertices = [user.id for user in users]
     vertices_names = [user.first_name + ' ' + user.last_name for user in users]
-    edges_map = [[0 for col in range(len(vertices))] for row in range(len(vertices))]
+    edges_map = [[0 for col in range(len(vertices))]
+                 for row in range(len(vertices))]
     edges = []
     for user in users:
         friends = get_friends(user.id, 'bdate')
@@ -19,10 +20,13 @@ def get_network(users, as_edgelist=True):
                     pass
                 else:
                     if as_edgelist:
-                        edges.append((vertices.index(user.id), vertices.index(friend.id)))
+                        edges.append((vertices.index(user.id),
+                                      vertices.index(friend.id)))
                     else:
-                        edges_map[vertices.index(user.id)][vertices.index(friend.id)] = 1
-                        edges_map[vertices.index(friend.id)][vertices.index(user.id)] = 1
+                        edges_map[vertices.index(user.id)]
+                        [vertices.index(friend.id)] = 1
+                        edges_map[vertices.index(friend.id)]
+                        [vertices.index(user.id)] = 1
         for rown, row in enumerate(edges_map):
             for coln, el in enumerate(row):
                 if el == 1:
@@ -33,10 +37,12 @@ def get_network(users, as_edgelist=True):
     graph = (vertices_names, edges)
     return graph
 
+
 def plot_graph(graph):
     vertices = graph[0]
     edges = graph[1]
-    g = igraph.Graph(vertex_attrs={"label": vertices}, edges=edges, directed=False)
+    g = igraph.Graph(vertex_attrs={"label": vertices},
+                     edges=edges, directed=False)
     g.es["width"] = 1
     g.simplify(combine_edges={"width": "sum"})
     g.simplify(multiple=True, loops=True)
@@ -51,6 +57,7 @@ def plot_graph(graph):
                     "vertex_label_dist": 2,  # расстояние между вершинами
                     "edge_color": "gray",
                     "autocurve": True,  # кривизна ребер
-                    "layout": g.layout_fruchterman_reingold(maxiter=1000, area=N ** 2, repulserad=N ** 2)
+                    "layout": g.layout_fruchterman_reingold
+                    (maxiter=1000, area=N ** 2, repulserad=N ** 2)
                     }
     igraph.plot(g, **visual_style)

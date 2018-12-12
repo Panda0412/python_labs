@@ -30,7 +30,8 @@ def age_predict(user_id: int) -> Optional[float]:
         age = age.split('.')
         bdate = date(int(age[2]), int(age[1]), int(age[0]))
         today = date.today()
-        age_list[pos] = today.year - bdate.year - ((today.month, today.day) < (bdate.month, bdate.day))
+        age_list[pos] = today.year - bdate.year -\
+            ((today.month, today.day) < (bdate.month, bdate.day))
     age_list.sort()
     if len(age_list) != 0:
         return median(age_list)

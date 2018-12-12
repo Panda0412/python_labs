@@ -33,8 +33,10 @@ def get(url, params={}, timeout=5, max_retries=5, backoff_factor=0.3):
 def get_friends(user_id, fields):
     """ Вернуть данных о друзьях пользователя
 
-    :param user_id: идентификатор пользователя, список друзей которого нужно получить
-    :param fields: список полей, которые нужно получить для каждого пользователя
+    :param user_id: идентификатор пользователя,
+    список друзей которого нужно получить
+    :param fields: список полей,
+    которые нужно получить для каждого пользователя
     """
     assert isinstance(user_id, int), "user_id must be positive integer"
     assert isinstance(fields, str), "fields must be string"
@@ -51,16 +53,16 @@ def get_friends(user_id, fields):
         'fields': fields
     }
 
-    query = "{domain}/friends.get?access_token={access_token}&user_id={user_id}&fields={fields}&v=5.53".format(
-        **query_params)
+    query = "{domain}/friends.get?access_token={access_token}" \
+            "&user_id={user_id}&fields={fields}&v=5.53".format(**query_params)
     response = get(query).json()
     try:
         response = response['response']['items']
     except:
         return []
     for num, friend in enumerate(response):
-        user = User(id=friend['id'], first_name=friend['first_name'], last_name=friend['last_name'],
-                    online=friend['online'])
+        user = User(id=friend['id'], first_name=friend['first_name'],
+                    last_name=friend['last_name'], online=friend['online'])
         try:
             user.bdate = friend['bdate']
         except:
@@ -72,7 +74,8 @@ def get_friends(user_id, fields):
 def messages_get_history(user_id, offset=0, count=20):
     """ Получить историю переписки с указанным пользователем
 
-    :param user_id: идентификатор пользователя, с которым нужно получить историю переписки
+    :param user_id: идентификатор пользователя,
+    с которым нужно получить историю переписки
     :param offset: смещение в истории переписки
     :param count: число сообщений, которое нужно получить
     """
@@ -94,8 +97,9 @@ def messages_get_history(user_id, offset=0, count=20):
             'offset': offset,
             'count': 200
         }
-        query = "{domain}/messages.getHistory?access_token={access_token}&user_id={user_id}&offset={offset}&count={count}&v=5.53".format(
-            **query_params)
+        query = "{domain}/messages.getHistory?access_token={access_token}" \
+                "&user_id={user_id}&offset={offset}&count={count}&v=5.53"\
+            .format(**query_params)
         response = get(query)
         messages.extend(response.json()['response']['items'])
         time.sleep(0.5)
@@ -109,8 +113,9 @@ def messages_get_history(user_id, offset=0, count=20):
         'offset': offset,
         'count': count
     }
-    query = "{domain}/messages.getHistory?access_token={access_token}&user_id={user_id}&offset={offset}&count={count}&v=5.53".format(
-        **query_params)
+    query = "{domain}/messages.getHistory?access_token={access_token}" \
+            "&user_id={user_id}&offset={offset}&count={count}&v=5.53"\
+        .format(**query_params)
     response = get(query)
     messages.extend(response.json()['response']['items'])
     for num, message in enumerate(messages):

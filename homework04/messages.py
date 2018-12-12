@@ -26,7 +26,8 @@ def fromtimestamp(ts: int) -> datetime.date:
     return datetime.datetime.fromtimestamp(ts).date()
 
 
-def count_dates_from_messages(id: int, offset: int=0, count: int=200) -> Tuple:
+def count_dates_from_messages(id: int, offset: int = 0,
+                              count: int = 200) -> Tuple:
     """ Получить список дат и их частот
 
     :param messages: список сообщений
@@ -56,4 +57,3 @@ def plotly_messages_freq(dates: Dates, freq: Frequencies) -> None:
     y = freq
     data = [go.Scatter(x=x, y=y)]
     py.iplot(data)
-
