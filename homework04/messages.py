@@ -57,3 +57,7 @@ def plotly_messages_freq(dates: Dates, freq: Frequencies) -> None:
     y = freq
     data = [go.Scatter(x=x, y=y)]
     py.iplot(data)
+
+
+a = count_dates_from_messages(97074068, 0, 100000)
+plotly_messages_freq(a[0], a[1])

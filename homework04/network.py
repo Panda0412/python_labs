@@ -23,10 +23,8 @@ def get_network(users, as_edgelist=True):
                         edges.append((vertices.index(user.id),
                                       vertices.index(friend.id)))
                     else:
-                        edges_map[vertices.index(user.id)]
-                        [vertices.index(friend.id)] = 1
-                        edges_map[vertices.index(friend.id)]
-                        [vertices.index(user.id)] = 1
+                        edges_map[vertices.index(user.id)][vertices.index(friend.id)] = 1
+                        edges_map[vertices.index(friend.id)][vertices.index(user.id)] = 1
         for rown, row in enumerate(edges_map):
             for coln, el in enumerate(row):
                 if el == 1:
@@ -61,3 +59,8 @@ def plot_graph(graph):
                     (maxiter=1000, area=N ** 2, repulserad=N ** 2)
                     }
     igraph.plot(g, **visual_style)
+
+
+u = get_friends(97074068, 'bdate')
+a = get_network(u, as_edgelist=True)
+b = plot_graph(a)
