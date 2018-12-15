@@ -106,21 +106,21 @@ def get_near_lesson(message):
     if len(group) != 5:
         bot.send_message(message.chat.id, "Группа указана неверно")
         return None
-    
+
     days = ['1day', '2day', '3day', '4day', '5day', '6day', '7day']
     dayrs = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
-    web_page = get_page(group)
     today = datetime.fromtimestamp(message.date)
-    soup = BeautifulSoup(web_page, "html5lib")
+    now = Time(today.hour, today.minute)
     if today.month >= 9:
-        first_sept = datetime(today.year, 9, 1)
+        first_september = datetime(today.year, 9, 1)
     else:
-        first_sept = datetime(today.year - 1, 9, 1)
+        first_september = datetime(today.year - 1, 9, 1)
     for _n in range(10):
-        now = Time(today.hour, today.minute)
-        week = (today - first_sept).days // 7 % 2
+        week = (today - first_september).days // 7 % 2
         if week == 0:
             week = 2
+        web_page = get_page(group, week)
+        soup = BeautifulSoup(web_page, "html5lib")
         if parse_schedule(web_page, days[today.weekday()]):
             times_list, locations_list, lessons_list, rooms_list = parse_schedule(web_page, days[today.weekday()])
             times_list_Time = []
@@ -134,18 +134,18 @@ def get_near_lesson(message):
             for time, location, room, lesson, time_Time in zip(times_list, locations_list, rooms_list, lessons_list, times_list_Time):
                 if week == 1:
                     if lesson.find('четная неделя') != -1 or lesson.find('нечетная неделя') == -1 and time_Time >= now:
-                        resp = '<b>{}\n\n{}</b>, {},{} {}\n'.format(dayrs[today.weekday()], time, location, room, lesson)
+                        resp = '<b>{}\n\n{}</b>\n {}\n {}{}\n'.format(dayrs[today.weekday()], time, location, room, lesson)
                         bot.send_message(message.chat.id, resp, parse_mode='HTML')
                         return None
                 elif time_Time >= now:
                     if lesson.find('четная неделя') == -1:
-                        resp = '<b>{}\n\n{}</b>, {},{} {}\n'.format(dayrs[today.weekday()], time, location, room, lesson)
+                        resp = '<b>{}\n\n{}</b>\n {}\n {}{}\n'.format(dayrs[today.weekday()], time, location, room, lesson)
                         bot.send_message(message.chat.id, resp, parse_mode='HTML')
                         return None
         today = today.replace(hour=0, minute=0, second=0)
         today = today + timedelta(1)
     else:
-        bot.send_message(message.chat.id, 'Ошибка расписания на сайте ИТМО!!!')
+        bot.send_message(message.chat.id, '☠☠☠ERROR☠☠☠')
 
 
 @bot.message_handler(commands=['tomorrow'])
@@ -159,6 +159,11 @@ def get_tomorrow(message):
                                           "Ожидаемый формат:\n"
                                           "/tomorrow  Номер группы")
         return None
+
+    if len(group) != 5:
+        bot.send_message(message.chat.id, "Группа указана неверно")
+        return None
+
     today = datetime.fromtimestamp(message.date)
     tomorrow = today + timedelta(1)
     days = ['/monday', '/tuesday', '/wednesday', '/thursday', '/friday', '/saturday', '/sunday']
