@@ -1,7 +1,6 @@
 import requests
 import config
 import telebot
-from time import sleep
 from datetime import datetime, timedelta, time as Time
 from bs4 import BeautifulSoup
 
