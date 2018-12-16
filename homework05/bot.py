@@ -130,7 +130,7 @@ def get_near_lesson(message):
         week = ((today - first_september).days
                 + first_september.weekday()) // 7 % 2
         if week == 0:
-            week = '2'
+            week = 2
         web_page = get_page(group, week)
         if parse_schedule(web_page, days[today.weekday()]):
             times_list, locations_list, lessons_list, rooms_list\
@@ -146,7 +146,7 @@ def get_near_lesson(message):
             for time, location, room, lesson, time_Time in \
                     zip(times_list, locations_list,
                         rooms_list, lessons_list, times_list_Time):
-                if week == '2':
+                if week == 2:
                     if lesson.find('нечетная неделя') != -1 or \
                             lesson.find('четная неделя') == -1 \
                             and time_Time >= now:
@@ -170,16 +170,17 @@ def get_near_lesson(message):
         bot.send_message(message.chat.id, '☠☠☠ERROR☠☠☠')
 
 
-@bot.message_handler(commands=['tomorrow'])
+@bot.message_handler(commands=['tomorrow', 'today'])
 def get_tomorrow(message):
     """ Получить расписание на следующий день """
     n = message.text.split()
     if len(n) == 2:
-        _, group = n
+        day, group = n
     else:
+        day = n[0]
         bot.send_message(message.chat.id, "Я не знаю такой команды! 😞\n"
                                           "Ожидаемый формат:\n"
-                                          "/tomorrow  Номер группы")
+                                          "{}  Номер группы".format(day))
         return None
 
     if len(group) != 5:
@@ -194,11 +195,18 @@ def get_tomorrow(message):
         first_september = datetime(today.year, 9, 1)
     else:
         first_september = datetime(today.year - 1, 9, 1)
-    week = ((tomorrow - first_september).days
-            + first_september.weekday()) // 7 % 2
-    if week == 0:
-        week = 2
-    message.text = '{} {} {}'.format(days[tomorrow.weekday()], group, week)
+    if day == '/tomorrow':
+        week = ((tomorrow - first_september).days
+                + first_september.weekday()) // 7 % 2
+        if week == 0:
+            week = 2
+        message.text = '{} {} {}'.format(days[tomorrow.weekday()], group, week)
+    elif day == '/today':
+        week = ((today - first_september).days
+                + first_september.weekday()) // 7 % 2
+        if week == 0:
+            week = 2
+        message.text = '{} {} {}'.format(days[today.weekday()], group, week)
     get_schedule(message)
 
 
@@ -275,7 +283,10 @@ def command(message):
                                              '                1 - чётная;\n'
                                              '                2 - нечётная)\n'
                                              '<i>*День - день '
-                                             'недели/завтра/все</i>\n\n'
+                                             'недели (на английском)\n'
+                                             'Сегодня(/today)\n'
+                                             'Завтра(/tomorrow)\n'
+                                             'Все - вся неделя(/all)</i>\n\n'
                                              '/near  Номер группы - '
                                              'ближайшее занятие\n\n'
                                              '/command - вызывает подсказку '
@@ -312,7 +323,10 @@ def start(message):
                                              "                1 - чётная;\n"
                                              "                2 - нечётная)\n"
                                              "<i>*День - день "
-                                             "недели/завтра/все</i>\n\n"
+                                             "недели (на английском)\n"
+                                             "Сегодня(/today)\n"
+                                             "Завтра(/tomorrow)\n"
+                                             "Все - вся неделя(/all)</i>\n\n"
                                              "/near  Номер группы - "
                                              "ближайшее занятие\n\n"
                                              "/command - вызывает подсказку "
