@@ -27,7 +27,6 @@ def parse_schedule(web_page, day):
     # Получаем таблицу с расписанием на понедельник
     schedule_table = soup.find("table", attrs={"id": day})
     if not schedule_table:
-        '''bot.send_message(message.chat.id, '<b>{} - выходной день 😜</b>', parse_mode='HTML')'''
         return None
 
     # Время проведения занятий
@@ -110,17 +109,16 @@ def get_near_lesson(message):
     days = ['1day', '2day', '3day', '4day', '5day', '6day', '7day']
     dayrs = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
     today = datetime.fromtimestamp(message.date)
-    now = Time(today.hour, today.minute)
     if today.month >= 9:
         first_september = datetime(today.year, 9, 1)
     else:
         first_september = datetime(today.year - 1, 9, 1)
     for _n in range(10):
-        week = (today - first_september).days // 7 % 2
+        now = Time(today.hour, today.minute)
+        week = ((today - first_september).days + first_september.weekday()) // 7 % 2
         if week == 0:
-            week = 2
+            week = '2'
         web_page = get_page(group, week)
-        soup = BeautifulSoup(web_page, "html5lib")
         if parse_schedule(web_page, days[today.weekday()]):
             times_list, locations_list, lessons_list, rooms_list = parse_schedule(web_page, days[today.weekday()])
             times_list_Time = []
@@ -132,13 +130,13 @@ def get_near_lesson(message):
                 else:
                     times_list_Time.append(Time(23, 59))
             for time, location, room, lesson, time_Time in zip(times_list, locations_list, rooms_list, lessons_list, times_list_Time):
-                if week == 1:
-                    if lesson.find('четная неделя') != -1 or lesson.find('нечетная неделя') == -1 and time_Time >= now:
+                if week == '2':
+                    if lesson.find('нечетная неделя') != -1 or lesson.find('четная неделя') == -1 and time_Time >= now:
                         resp = '<b>{}\n\n{}</b>\n {}\n {}{}\n'.format(dayrs[today.weekday()], time, location, room, lesson)
                         bot.send_message(message.chat.id, resp, parse_mode='HTML')
                         return None
                 elif time_Time >= now:
-                    if lesson.find('четная неделя') == -1:
+                    if lesson.find('нечетная неделя') == -1:
                         resp = '<b>{}\n\n{}</b>\n {}\n {}{}\n'.format(dayrs[today.weekday()], time, location, room, lesson)
                         bot.send_message(message.chat.id, resp, parse_mode='HTML')
                         return None
@@ -171,7 +169,7 @@ def get_tomorrow(message):
         first_september = datetime(today.year, 9, 1)
     else:
         first_september = datetime(today.year - 1, 9, 1)
-    week = (tomorrow - first_september).days // 7 % 2
+    week = ((tomorrow - first_september).days + first_september.weekday()) // 7 % 2
     if week == 0:
         week = 2
     message.text = '{} {} {}'.format(days[tomorrow.weekday()], group, week)
@@ -217,6 +215,22 @@ def get_all_schedule(message):
             resp += '<b>{} - выходной день 😜</b>\n'.format(dayr)
         resp += '___________________________________\n\n'
     return bot.send_message(message.chat.id, resp, parse_mode='HTML')
+
+
+@bot.message_handler(commands=['panda'])
+def panda(message):
+    return bot.send_message(message.chat.id, '░░░░░░░░▄██▄░░░░░░▄▄░░'
+                                             '░░░░░░░▐███▀░░░░░▄███▌'
+                                             '░░▄▀░░▄█▀▀░░░░░░░░▀██░'
+                                             '░█░░░██░░░░░░░░░░░░░░░'
+                                             '█▌░░▐██░░▄██▌░░▄▄▄░░░▄'
+                                             '██░░▐██▄░▀█▀░░░▀██░░▐▌'
+                                             '██▄░▐███▄▄░░▄▄▄░▀▀░▄██'
+                                             '▐███▄██████▄░▀░▄█████▌'
+                                             '▐████████████▀▀██████░'
+                                             '░▐████▀██████░░█████░░'
+                                             '░░░▀▀▀░░█████▌░████▀░░'
+                                             '░░░░░░░░░▀▀███░▀▀▀░░░░', parse_mode='HTML')
 
 
 if __name__ == '__main__':
