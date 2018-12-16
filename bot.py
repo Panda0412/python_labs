@@ -1,5 +1,6 @@
 import requests
 import telebot
+from time import sleep
 from datetime import datetime, timedelta, time as Time
 from bs4 import BeautifulSoup
 
@@ -334,5 +335,14 @@ def start(message):
                             parse_mode='HTML')
 
 
+'''
 if __name__ == '__main__':
     bot.polling(none_stop=True)
+'''
+
+
+while True:
+    try:
+        bot.polling(none_stop=True)
+    except:
+        sleep(5)
