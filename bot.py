@@ -1,18 +1,18 @@
 import requests
-import config
 import telebot
 from datetime import datetime, timedelta, time as Time
 from bs4 import BeautifulSoup
 
-
-bot = telebot.TeleBot(config.access_token)
+domain = 'http://www.ifmo.ru/ru/schedule/0'
+access_token = '754402138:AAGPa88y2G1y8CdlViPkXsm9kwzmYPFvqks'
+bot = telebot.TeleBot(access_token)
 
 
 def get_page(group, week=''):
     if week:
         week = str(week) + '/'
     url = '{domain}/{group}/{week}raspisanie_zanyatiy_{group}.htm'.format(
-        domain=config.domain,
+        domain=domain,
         group=group.upper(),
         week=week)
     response = requests.get(url)
