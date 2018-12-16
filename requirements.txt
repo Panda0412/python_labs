@@ -3,3 +3,4 @@ bs4==0.0.1
 pyTelegramBotAPI==3.6.6
 requests==2.21.0
 telebot==0.0.3
+html5lib==1.0.1
