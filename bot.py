@@ -8,7 +8,7 @@ access_token = '754402138:AAGPa88y2G1y8CdlViPkXsm9kwzmYPFvqks'
 bot = telebot.TeleBot(access_token)
 
 
-def get_page(group, week=''):
+def get_page(group: str, week: str = '') -> list:
     if week:
         week = str(week) + '/'
     url = '{domain}/{group}/{week}raspisanie_zanyatiy_{group}.htm'.format(
@@ -20,7 +20,7 @@ def get_page(group, week=''):
     return web_page
 
 
-def parse_schedule(web_page, day):
+def parse_schedule(web_page: list, day: str) -> tuple:
     soup = BeautifulSoup(web_page, "html5lib")
 
     # Получаем таблицу с расписанием на понедельник
@@ -51,7 +51,7 @@ def parse_schedule(web_page, day):
 
 @bot.message_handler(commands=['monday', 'tuesday', 'wednesday',
                                'thursday', 'friday', 'saturday', 'sunday'])
-def get_schedule(message):
+def get_schedule(message: telebot.types.Message) -> telebot.types.Message:
     """ Получить расписание на указанный день """
     n = message.text.split()
     if len(n) == 3:
@@ -101,7 +101,7 @@ def get_schedule(message):
 
 
 @bot.message_handler(commands=['near'])
-def get_near_lesson(message):
+def get_near_lesson(message: telebot.types.Message) -> telebot.types.Message:
     """ Получить ближайшее занятие """
     n = message.text.split()
     if len(n) == 2:
@@ -170,7 +170,7 @@ def get_near_lesson(message):
 
 
 @bot.message_handler(commands=['tomorrow', 'today'])
-def get_tomorrow(message):
+def get_tomorrow(message: telebot.types.Message) -> telebot.types.Message:
     """ Получить расписание на следующий день """
     n = message.text.split()
     if len(n) == 2:
@@ -210,7 +210,7 @@ def get_tomorrow(message):
 
 
 @bot.message_handler(commands=['all'])
-def get_all_schedule(message):
+def get_all_schedule(message: telebot.types.Message) -> telebot.types.Message:
     """ Получить расписание на всю неделю для указанной группы """
     n = message.text.split()
     if len(n) == 3:
@@ -257,24 +257,24 @@ def get_all_schedule(message):
 
 
 @bot.message_handler(commands=['panda'])
-def panda(message):
-    return bot.send_message(message.chat.id, '░░░░░░░░▄██▄░░░░░░▄▄░░'
-                                             '░░░░░░░▐███▀░░░░░▄███▌'
-                                             '░░▄▀░░▄█▀▀░░░░░░░░▀██░'
-                                             '░█░░░██░░░░░░░░░░░░░░░'
-                                             '█▌░░▐██░░▄██▌░░▄▄▄░░░▄'
-                                             '██░░▐██▄░▀█▀░░░▀██░░▐▌'
-                                             '██▄░▐███▄▄░░▄▄▄░▀▀░▄██'
-                                             '▐███▄██████▄░▀░▄█████▌'
-                                             '▐████████████▀▀██████░'
-                                             '░▐████▀██████░░█████░░'
-                                             '░░░▀▀▀░░█████▌░████▀░░'
-                                             '░░░░░░░░░▀▀███░▀▀▀░░░░',
+def panda(message: telebot.types.Message) -> telebot.types.Message:
+    return bot.send_message(message.chat.id, '░░░░░░░░▄██▄░░░░░░▄▄░░\n'
+                                             '░░░░░░░▐███▀░░░░░▄███▌\n'
+                                             '░░▄▀░░▄█▀▀░░░░░░░░▀██░\n'
+                                             '░█░░░██░░░░░░░░░░░░░░░\n'
+                                             '█▌░░▐██░░▄██▌░░▄▄▄░░░▄\n'
+                                             '██░░▐██▄░▀█▀░░░▀██░░▐▌\n'
+                                             '██▄░▐███▄▄░░▄▄▄░▀▀░▄██\n'
+                                             '▐███▄██████▄░▀░▄█████▌\n'
+                                             '▐████████████▀▀██████░\n'
+                                             '░▐████▀██████░░█████░░\n'
+                                             '░░░▀▀▀░░█████▌░████▀░░\n'
+                                             '░░░░░░░░░▀▀███░▀▀▀░░░░\n',
                             parse_mode='HTML')
 
 
 @bot.message_handler(commands=['command'])
-def command(message):
+def command(message: telebot.types.Message) -> telebot.types.Message:
     return bot.send_message(message.chat.id, '<b>Вот что я умею:</b>\n\n'
                                              '/День<i>*</i>  Номер группы  '
                                              'Чётность недели '
@@ -295,7 +295,7 @@ def command(message):
 
 
 @bot.message_handler(commands=['start'])
-def start(message):
+def start(message: telebot.types.Message) -> telebot.types.Message:
     return bot.send_message(message.chat.id, "░░░░░░░░▄██▄░░░░░░▄▄░░"
                                              "░░░░░░░▐███▀░░░░░▄███▌"
                                              "░░▄▀░░▄█▀▀░░░░░░░░▀██░"
