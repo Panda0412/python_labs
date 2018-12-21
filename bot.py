@@ -3,8 +3,7 @@ import telebot
 from datetime import datetime, timedelta, time as Time
 from bs4 import BeautifulSoup
 
-domain = 'http://www.ifmo.ru/ru/schedule/0'
-access_token = '754402138:AAGPa88y2G1y8CdlViPkXsm9kwzmYPFvqks'
+
 bot = telebot.TeleBot(access_token)
 
 
