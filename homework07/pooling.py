@@ -16,7 +16,7 @@ def heavy_computation(data_chunk):
     return x
 
 
-def memory(mem_usage):
+def change_mem(mem_usage):
     m = mem_usage.upper()
     try:
         size = int(m)
@@ -39,7 +39,7 @@ def memory(mem_usage):
 class ProcessPool:
 
     def __init__(self, min_workers=2, max_workers=40, mem_usage='1gb'):
-        self.mem_usage = memory(mem_usage)
+        self.mem_usage = change_mem(mem_usage)
         self.p_mem_usage = 0
         self.min_workers = min_workers
         self.max_workers = max_workers
