@@ -6,9 +6,12 @@ import psutil
 
 
 def heavy_computation(data_chunk):
-    a = numpy.array([[random.randint(1000 * (-data_chunk), 1000 * data_chunk) for _ in range(1000)] for _ in range(1000)])
-    b = numpy.array([[random.randint(1000 * (-data_chunk), 1000 * data_chunk) for _ in range(1000)] for _ in range(1000)])
-    c = numpy.array([[random.randint(1000 * (-data_chunk), 1000 * data_chunk) for _ in range(1000)] for _ in range(1000)])
+    a = numpy.array([[random.randint(1000 * (-data_chunk), 1000 * data_chunk)
+                      for _ in range(1000)] for _ in range(1000)])
+    b = numpy.array([[random.randint(1000 * (-data_chunk), 1000 * data_chunk)
+                      for _ in range(1000)] for _ in range(1000)])
+    c = numpy.array([[random.randint(1000 * (-data_chunk), 1000 * data_chunk)
+                      for _ in range(1000)] for _ in range(1000)])
     x = a * b * c
     return x
 
@@ -25,9 +28,11 @@ class ProcessPool:
 
     def map(self, computations, data):
         # первый процесс (для теста) и расчёт возможного количества процессов
-        t_p = mp.Process(target=computations, name='test process', args=(data.get(),))
+        t_p = mp.Process(target=computations,
+                         name='test process', args=(data.get(),))
         t_p.start()
-        t_m = mp.Process(target=self.memory_test, name='test memory', args=(t_p.pid,))
+        t_m = mp.Process(target=self.memory_test,
+                         name='test memory', args=(t_p.pid,))
         t_m.start()
         t_p.join()
         t_m.join()
@@ -37,14 +42,16 @@ class ProcessPool:
             m = self.mem_queue.get()
             mem_list.append(m)
         self.p_mem_usage = max(mem_list)
-        print('Вычисление завершено, для одного процесса необходимо:', self.p_mem_usage)
+        print('Вычисление завершено, для одного процесса необходимо:',
+              self.p_mem_usage)
         if self.p_mem_usage > self.mem_usage:
             raise Warning('У Вас недостаточно памяти даже для одного процесса')
         self.amt_workers = int(self.mem_usage // self.p_mem_usage)
         if self.amt_workers > self.max_workers:
             self.amt_workers = self.max_workers
         elif self.amt_workers < self.min_workers:
-            raise Warning('У Вас не хватает памяти для работы даже заданного min_workers')
+            raise Warning('У Вас не хватает памяти для работы '
+                          'даже заданного min_workers')
         else:
             self.amt_workers = int(self.mem_usage // self.p_mem_usage)
         # пул процессов
@@ -70,7 +77,8 @@ class ProcessPool:
                     if not data.empty():
                         print('Создание нового процесса вместо старого')
                         p_list.remove(p)
-                        pp = mp.Process(target=computations, args=(data.get(),))
+                        pp = mp.Process(target=computations,
+                                        args=(data.get(),))
                         pp.start()
                         p_list.append(pp)
                     else:
