@@ -16,10 +16,30 @@ def heavy_computation(data_chunk):
     return x
 
 
+def memory(mem_usage):
+    m = mem_usage.upper()
+    try:
+        size = int(m)
+        return size
+    except:
+        if not m[-2:-1].isdigit():
+            size = int(m[:-2])
+            units = m[-2:]
+            units_dict = {
+                'GB': 1,
+                'MB': 1024,
+                'KB': 1024 * 1024,
+            }
+            size = size / units_dict[units]
+        else:
+            size = int(m[:-1]) / 1024 ** 3
+        return round(size, 3)
+
+
 class ProcessPool:
 
-    def __init__(self, min_workers=2, max_workers=40, mem_usage='1Gb'):
-        self.mem_usage = int(mem_usage[:-2])
+    def __init__(self, min_workers=2, max_workers=40, mem_usage='1gb'):
+        self.mem_usage = memory(mem_usage)
         self.p_mem_usage = 0
         self.min_workers = min_workers
         self.max_workers = max_workers
@@ -100,7 +120,7 @@ class ProcessPool:
 
 if __name__ == '__main__':
     q = mp.Queue()
-    for i in range(50):
+    for i in range(5):
         q.put(i * 100)
     pool = ProcessPool()
     print(pool.map(heavy_computation, q))
